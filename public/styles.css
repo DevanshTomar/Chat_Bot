@@ -60,6 +60,7 @@ header {
 }
 
 #messages li {
+  list-style-type: none;
   margin-bottom: 15px;
   padding: 10px;
   background-color: #e6e6e6;
@@ -70,6 +71,7 @@ header {
 }
 
 #messages li.sent {
+  list-style-type: none;
   background-color: #3897f0;
   color: white;
   align-self: flex-end;
