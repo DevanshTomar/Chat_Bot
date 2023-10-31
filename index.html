@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Instagram-like Chat</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+
+  <body>
+    <div class="chat-container">
+      <header>
+        <div class="back-arrow">&#8592;</div>
+        <div class="username">Devansh</div>
+      </header>
+      <ul id="messages"></ul>
+      <footer>
+        <input id="input" type="text" placeholder="Type a message..." />
+        <button>Send</button>
+      </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- ... Your existing JS code ... -->
+    <script>
+      $(function () {
+        var socket = io();
+
+        // Handle form submission
+        $("footer button").click(function (e) {
+          e.preventDefault(); // Prevent default behavior
+          let message = $("#input").val().trim();
+          if (message) {
+            // Only send non-empty messages
+            socket.emit("chat message", message);
+            $("#input").val(""); // Clear the input box
+            // Add the sent message to chat with "sent" class
+            $("#messages").append($("<li class='sent'>").text(message));
+            // Auto scroll to the bottom
+            $("#messages").scrollTop($("#messages")[0].scrollHeight);
+          }
+        });
+
+        // Receive and display incoming messages
+        socket.on("chat message", function (msg) {
+          $("#messages").append($("<li>").text(msg));
+          // Auto scroll to the bottom
+          $("#messages").scrollTop($("#messages")[0].scrollHeight);
+        });
+
+        // Optional: Go back or leave chat functionality for back arrow
+        $(".back-arrow").click(function () {
+          // Implement logic here like going back to previous page or showing a confirmation dialog
+          window.history.back(); // Go back to previous page, for instance.
+        });
+      });
+    </script>
+  </body>
+</html>
